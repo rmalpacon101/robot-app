@@ -15,6 +15,19 @@ public class RobotTest
     }
 
     [DataTestMethod]
+    [DataRow("FFFFF", Direction.NORTH, "OUT OF BOUNDS")]
+    [DataRow("FFFFF", Direction.EAST, "OUT OF BOUNDS")]
+    [DataRow("FFFFF", Direction.WEST, "OUT OF BOUNDS")]
+    [DataRow("FFFFF", Direction.SOUTH, "OUT OF BOUNDS")]
+    public void Robot_MovesOutsideGridBoundary_Should_ReturnOutOfBounds(string command, string startingDirection,
+        string expected)
+    {
+        var result = _robot.Execute(command, startingDirection);
+
+        Assert.AreEqual(expected, result);
+    }
+
+    [DataTestMethod]
     [DataRow("F", "1:0:S", 1, 1)]
     [DataRow("F", "1:1:S", 1, 2)]
     [DataRow("FF", "2:0:S", 2, 2)]
@@ -79,17 +92,5 @@ public class RobotTest
         var result = _robot.Execute(command);
 
         Assert.AreEqual(position, result);
-    }
-
-    [DataTestMethod]
-    [DataRow("FFFFF", Direction.NORTH, "OUT OF BOUNDS")]
-    [DataRow("FFFFF", Direction.EAST, "OUT OF BOUNDS")]
-    [DataRow("FFFFF", Direction.WEST, "OUT OF BOUNDS")]
-    [DataRow("FFFFF", Direction.SOUTH, "OUT OF BOUNDS")]
-    public void Robot_MovesOutsideGridBoundary_Should_ReturnOutOfBounds(string command, string startingDirection, string expected)
-    {
-        var result = _robot.Execute(command, startingDirection);
-
-        Assert.AreEqual(expected, result);
     }
 }
