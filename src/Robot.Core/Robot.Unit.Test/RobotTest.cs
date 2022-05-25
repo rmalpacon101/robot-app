@@ -11,7 +11,7 @@ public class RobotTest
     [TestInitialize]
     public void Initialize()
     {
-        _robot = new Robot();
+        _robot = new Robot(new Grid(3, 4));
     }
 
     [DataTestMethod]

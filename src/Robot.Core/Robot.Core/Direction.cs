@@ -26,28 +26,13 @@ public class Direction
         [WEST] = new Direction(WEST, NORTH, SOUTH)
     };
 
-    public static Direction DefaultDirection(string direction = NORTH)
-    {
-        return Orientation[direction];
-    }
+    public static Direction DefaultDirection(string direction = NORTH) => Orientation[direction];
 
-    private Direction GetDirection(string newDirection)
-    {
-        return Orientation[newDirection];
-    }
+    private Direction GetDirection(string newDirection) => Orientation[newDirection];
 
-    public string GetValue()
-    {
-        return _direction;
-    }
+    public string GetValue() => _direction;
 
-    public Direction RotateLeft()
-    {
-        return GetDirection(_left);
-    }
+    public Direction RotateLeft() => GetDirection(_left);
 
-    public Direction RotateRight()
-    {
-        return GetDirection(_right);
-    }
+    public Direction RotateRight() => GetDirection(_right);
 }

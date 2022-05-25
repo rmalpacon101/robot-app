@@ -2,8 +2,12 @@
 
 public class Robot
 {
-    private const int MAX_HEIGHTS_BOUNDS = 3;
-    private const int MAX_WIDTH_BOUNDS = 4;
+    private readonly Grid _grid;
+
+    public Robot(Grid grid)
+    {
+        _grid = grid;
+    }
 
     public string Execute(string commands, string direction = Direction.NORTH, int x = 0, int y = 0)
     {
@@ -11,6 +15,7 @@ public class Robot
         var coordinates = new Coordinate(x, y);
 
         foreach (var command in commands.ToCharArray())
+        {
             switch (command)
             {
                 case 'R':
@@ -20,40 +25,13 @@ public class Robot
                     orientation = orientation.RotateLeft();
                     break;
                 case 'F':
-                    coordinates = Move(orientation, coordinates);
+                    coordinates = _grid.GetCoordinate(orientation, coordinates);
                     break;
             }
 
-        if (coordinates.Y > MAX_HEIGHTS_BOUNDS || coordinates.X > MAX_WIDTH_BOUNDS) return "OUT OF BOUNDS";
-
-        if (coordinates.X <= -1 || coordinates.Y <= -1) return "OUT OF BOUNDS";
-
-        return $"{coordinates.X}:{coordinates.Y}:{orientation.GetValue()}";
-    }
-
-    private Coordinate Move(Direction direction, Coordinate currentCoordinate)
-    {
-        var y = currentCoordinate.Y;
-        var x = currentCoordinate.X;
-
-        var currentDirection = direction.GetValue();
-
-        switch (currentDirection)
-        {
-            case Direction.NORTH:
-                y += 1;
-                break;
-            case Direction.EAST:
-                x += 1;
-                break;
-            case Direction.SOUTH:
-                y -= 1;
-                break;
-            case Direction.WEST:
-                x -= 1;
-                break;
+            if (_grid.IsOutOfBounds) return "OUT OF BOUNDS";
         }
 
-        return new Coordinate(x, y);
+        return $"{coordinates.X}:{coordinates.Y}:{orientation.GetValue()}";
     }
 }
