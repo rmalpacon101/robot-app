@@ -1,4 +1,6 @@
-﻿namespace Robots.Core;
+﻿using System.Text.RegularExpressions;
+
+namespace Robots.Core;
 
 public class Grid
 {
@@ -39,5 +41,15 @@ public class Grid
         if (y > _rows || x > _columns || x <= -1 || y <= -1) IsOutOfBounds = true;
 
         return new Coordinate(x, y);
+    }
+
+    public static Grid Parse(string input)
+    {
+        string[] values = Regex.Split(input, @"\D+").Where(o => !string.IsNullOrWhiteSpace(o)).ToArray();
+
+        _ = int.TryParse(values[0], out var cols);
+        _ = int.TryParse(values[1], out var rows);
+
+        return new Grid(rows, cols);
     }
 }
