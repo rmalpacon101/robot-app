@@ -2,6 +2,11 @@
 
 public class Direction
 {
+    public const string NORTH = "N";
+    public const string SOUTH = "S";
+    public const string EAST = "E";
+    public const string WEST = "W";
+
     private readonly string _direction;
     private readonly string _left;
     private readonly string _right;
@@ -13,15 +18,18 @@ public class Direction
         _left = left;
     }
 
-    public static Direction Default => Orientation["N"];
-
     private static Dictionary<string, Direction> Orientation => new()
     {
-        ["N"] = new Direction("N", "E", "W"),
-        ["E"] = new Direction("E", "S", "N"),
-        ["S"] = new Direction("S", "W", "E"),
-        ["W"] = new Direction("W", "N", "S")
+        [NORTH] = new Direction(NORTH, EAST, WEST),
+        [EAST] = new Direction(EAST, SOUTH, NORTH),
+        [SOUTH] = new Direction(SOUTH, WEST, EAST),
+        [WEST] = new Direction(WEST, NORTH, SOUTH)
     };
+
+    public static Direction DefaultDirection(string direction = NORTH)
+    {
+        return Orientation[direction];
+    }
 
     private Direction GetDirection(string newDirection)
     {
