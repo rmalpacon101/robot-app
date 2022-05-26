@@ -1,12 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using Robots.Core;
+﻿using Robots.Core;
 using Robots.Core.Parsers;
-
-//var file = @"C:\Users\malpa\Downloads\robot-dev-test\robot-dev-test\RobotApp\Sample3.txt";
-
-
-
 
 async Task Init()
 {
