@@ -20,11 +20,11 @@ public class Robot
         {
             var newCoordinates = Execute(command.Command, command.Direction, command.X, command.Y);
 
-            return _grid.IsOutOfBounds
-                ? "OUT OF BOUNDS"
-                : newCoordinates == command.ExpectedOutput
-                    ? $"SUCCESS {newCoordinates}"
-                    : $"FAILURE {newCoordinates}";
+            if (_grid.CollisionOccurred) return $"CRASHED {newCoordinates}";
+
+            if (_grid.IsOutOfBounds) return "OUT OF BOUNDS";
+
+            return newCoordinates == command.ExpectedOutput ? $"SUCCESS {newCoordinates}" : $"FAILURE {newCoordinates}";
         });
 
         return JsonSerializer.Serialize(result);
@@ -45,7 +45,7 @@ public class Robot
                     orientation = orientation.RotateLeft();
                     break;
                 case 'F':
-                    coordinates = _grid.GetCoordinate(orientation, coordinates);
+                    coordinates = _grid.Move(orientation, coordinates);
                     break;
             }
 

@@ -13,7 +13,7 @@ public class RobotTest
     {
         Seq<RobotCommand> commands = new(new RobotCommand[] { new(x, y, direction, command, expectedOutput) });
 
-        Grid grid = new(3, 4);
+        Grid grid = new(3, 4, Seq<Coordinate>.Empty);
 
         Robot robotExecuter = new(commands, grid);
 
@@ -30,7 +30,7 @@ public class RobotTest
     {
         Seq<RobotCommand> commands = new(new RobotCommand[] { new(x, y, direction, command, expectedOutput) });
 
-        Grid grid = new(3, 4);
+        Grid grid = new(3, 4, Seq<Coordinate>.Empty);
 
         Robot robot = new(commands, grid);
 
@@ -47,7 +47,7 @@ public class RobotTest
     {
         Seq<RobotCommand> commands = new(new RobotCommand[] { new(x, y, direction, command, expectedOutput) });
 
-        Grid grid = new(3, 4);
+        Grid grid = new(3, 4, Seq<Coordinate>.Empty);
 
         Robot robot = new(commands, grid);
 

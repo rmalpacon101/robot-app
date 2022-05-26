@@ -1,5 +1,6 @@
 ﻿using LanguageExt;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Robots.Core;
 using Robots.Core.Parsers;
 
 namespace Robots.Unit.Test.Parsers;
@@ -10,12 +11,13 @@ public class GridParserTest
     [TestMethod]
     public void Grid_Should_ReturnOneGrid()
     {
-        var gridParser = new GridParser(new Arr<string>(new[] { "GRID 4x3" }));
+        var commands = new Arr<string>(new[] {"GRID 4x3"});
+        var gridParser = new GridParser(commands, Seq<Coordinate>.Empty);
 
         var result = gridParser.Parse();
 
-        var expectedCol = 4;
-        var expectedRows = 3;
+        const int expectedCol = 4;
+        const int expectedRows = 3;
 
         Assert.IsNotNull(result);
         Assert.AreEqual(expectedCol, result.Columns);
@@ -25,12 +27,13 @@ public class GridParserTest
     [TestMethod]
     public void Grid_Should_ReturnOneGrid_WithColumnsRowsSetTo0()
     {
-        var gridParser = new GridParser(new Arr<string>(new[] { "" }));
+        var commands = new Arr<string>(new[] {""});
+        var gridParser = new GridParser(commands, Seq<Coordinate>.Empty);
 
         var result = gridParser.Parse();
 
-        var expectedCol = 0;
-        var expectedRows = 0;
+        const int expectedCol = 0;
+        const int expectedRows = 0;
 
         Assert.IsNotNull(result);
         Assert.AreEqual(expectedCol, result.Columns);
