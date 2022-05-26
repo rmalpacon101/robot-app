@@ -16,12 +16,14 @@ public class GridParser : AbstractBaseParser<Grid>
     {
         Option<string> gridCommand = _commands.Find(o => o.StartsWith("GRID"));
 
+        var defaultGrid = new Grid(0, 0, Seq<Coordinate>.Empty);
+
         return gridCommand.Match(command =>
         {
             string[] values = Regex.Split(command, @"\D+").Where(o => !string.IsNullOrWhiteSpace(o)).ToArray();
 
-            return new Grid(int.Parse(values[1]), int.Parse(values[0]), _obstacleCoordinates);
-        }, new Grid(0, 0, Seq<Coordinate>.Empty));
+            return values.Length >= 2 ? new Grid(int.Parse(values[1]), int.Parse(values[0]), _obstacleCoordinates) : defaultGrid;
+        }, defaultGrid);
 
     }
 }

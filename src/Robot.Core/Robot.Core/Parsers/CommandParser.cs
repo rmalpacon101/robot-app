@@ -10,7 +10,7 @@ public class CommandParser : AbstractBaseParser<Seq<RobotCommand>>
 
     private Map<int, Seq<string>> GetCommands()
     {
-        var commands = _commands.Where(o => !o.StartsWith("OBSTACLE") && !o.StartsWith("GRID"));
+        var commands = _commands.Filter(o => !o.StartsWith("OBSTACLE") && !o.StartsWith("GRID"));
 
         var map = new Map<int, Seq<string>>();
 
@@ -20,7 +20,7 @@ public class CommandParser : AbstractBaseParser<Seq<RobotCommand>>
         {
             if (string.IsNullOrWhiteSpace(command)) groupIndex++;
 
-            map = map.AddOrUpdate(groupIndex, list => list.Add(command), () => string.IsNullOrWhiteSpace(command) ? Seq<string>.Empty : new Seq<string>(new[] { command}));
+            map = map.AddOrUpdate(groupIndex, list => list.Add(command), () => string.IsNullOrWhiteSpace(command) ? Seq<string>.Empty : new Seq<string>(new[] { command }));
         }
 
         return map;
@@ -36,12 +36,10 @@ public class CommandParser : AbstractBaseParser<Seq<RobotCommand>>
                 var list = o.Value;
 
                 var currentPositions = list[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-                return new RobotCommand(int.Parse(currentPositions[0]),
-                    int.Parse(currentPositions[1]),
-                    currentPositions[2],
-                    list[1],
-                    list[2]);
+                
+                return currentPositions.Length >= 3 ? 
+                    new RobotCommand(int.Parse(currentPositions[0]), int.Parse(currentPositions[1]), currentPositions[2], list[1], list[2]) : 
+                    new RobotCommand(0, 0, Direction.NORTH, string.Empty, string.Empty);
             });
     }
 }

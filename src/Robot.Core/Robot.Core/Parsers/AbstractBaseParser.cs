@@ -12,7 +12,5 @@ namespace Robots.Core.Parsers
         }
 
         public abstract T Parse();
-
-        protected string[] Split(string input) => input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
     }
 }
