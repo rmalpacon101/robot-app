@@ -1,4 +1,5 @@
-﻿using LanguageExt;
+﻿using System.Text.RegularExpressions;
+using LanguageExt;
 
 namespace Robots.Core.Parsers
 {
@@ -12,5 +13,16 @@ namespace Robots.Core.Parsers
         }
 
         public abstract T Parse();
+
+        protected bool TryParseCommandValues(string input, out Arr<int> res)
+        {
+            res = Arr<int>.Empty;
+
+            Arr<string> values = new(Regex.Split(input, @"\D+").Where(o => !string.IsNullOrWhiteSpace(o)));
+
+            res = values.Map(int.Parse);
+
+            return !res.IsEmpty;
+        }
     }
 }

@@ -35,11 +35,7 @@ public class CommandParser : AbstractBaseParser<Seq<RobotCommand>>
             {
                 var list = o.Value;
 
-                var currentPositions = list[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                
-                return currentPositions.Length >= 3 ? 
-                    new RobotCommand(int.Parse(currentPositions[0]), int.Parse(currentPositions[1]), currentPositions[2], list[1], list[2]) : 
-                    RobotCommand.Default;
+                return TryParseCommandValues(list[0], out var coords) ? new RobotCommand(coords[0], coords[1], $"{list[0][^1]}", list[1], list[2]) : RobotCommand.Default;
             });
     }
 }
