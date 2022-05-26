@@ -17,26 +17,9 @@ public class RobotTest
 
         Robot robotExecuter = new(commands, grid);
 
-        string expected = "[\"SUCCESS 1 0 W\"]";
+        var expected = "[\"SUCCESS 1 0 W\"]";
 
         var result = robotExecuter.Execute();
-
-        Assert.AreEqual(expected, result);
-    }
-
-    [DataTestMethod]
-    [DataRow(1, 1, "E", "RFF", "1 1 E")]
-    public void Execute_MovesOutsideGridBoundary_Should_ReturnOutOfBounds(int x, int y, string direction, string command, string expectedOutput)
-    {
-        Seq<RobotCommand> commands = new(new RobotCommand[] { new(x, y, direction, command, expectedOutput) });
-
-        Grid grid = new(3, 4, Seq<Coordinate>.Empty);
-
-        Robot robot = new(commands, grid);
-
-        string expected = "[\"OUT OF BOUNDS\"]";
-
-        var result = robot.Execute();
 
         Assert.AreEqual(expected, result);
     }
@@ -51,7 +34,41 @@ public class RobotTest
 
         Robot robot = new(commands, grid);
 
-        string expected = "[\"FAILURE 0 0 W\"]";
+        var expected = "[\"FAILURE 0 0 W\"]";
+
+        var result = robot.Execute();
+
+        Assert.AreEqual(expected, result);
+    }
+
+    [DataTestMethod]
+    [DataRow(1, 1, "E", "FF", "1 0 W")]
+    public void Execute_Moves_Collision_Should_ReturnCrashed(int x, int y, string direction, string command, string expectedOutput)
+    {
+        Seq<RobotCommand> commands = new(new RobotCommand[] { new(x, y, direction, command, expectedOutput) });
+
+        Grid grid = new(3, 4, new Seq<Coordinate>(new[] { new Coordinate(3, 1) }));
+
+        Robot robot = new(commands, grid);
+
+        var expected = "[\"CRASHED 3 1 E\"]";
+
+        var result = robot.Execute();
+
+        Assert.AreEqual(expected, result);
+    }
+
+    [DataTestMethod]
+    [DataRow(1, 1, "E", "RFF", "1 1 E")]
+    public void Execute_MovesOutsideGridBoundary_Should_ReturnOutOfBounds(int x, int y, string direction, string command, string expectedOutput)
+    {
+        Seq<RobotCommand> commands = new(new RobotCommand[] { new(x, y, direction, command, expectedOutput) });
+
+        Grid grid = new(3, 4, Seq<Coordinate>.Empty);
+
+        Robot robot = new(commands, grid);
+
+        var expected = "[\"OUT OF BOUNDS\"]";
 
         var result = robot.Execute();
 

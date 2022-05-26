@@ -44,10 +44,17 @@ public class Grid
                 break;
         }
 
-        if (_obstacles.Exists(o => o.Y == coordinates.Y || o.X == coordinates.X)) CollisionOccurred = true;
+        var newCoordinates = new Coordinate(x, y);
 
-        if ((!CollisionOccurred && y > Rows) || x > Columns || x <= -1 || y <= -1) IsOutOfBounds = true;
+        if (_obstacles.Exists(o => o == newCoordinates))
+        {
+            CollisionOccurred = true;
 
-        return new Coordinate(x, y);
+            return newCoordinates;
+        }
+
+        if (y > Rows || x > Columns || x <= -1 || y <= -1) IsOutOfBounds = true;
+
+        return newCoordinates;
     }
 }
