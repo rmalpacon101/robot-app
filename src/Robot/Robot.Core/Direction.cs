@@ -1,4 +1,6 @@
-﻿namespace Robots.Core;
+﻿using LanguageExt;
+
+namespace Robots.Core;
 
 public class Direction
 {
@@ -18,14 +20,14 @@ public class Direction
         _left = left;
     }
 
-    private static IReadOnlyDictionary<string, Direction> Orientation => new Dictionary<string, Direction>
+    private static Map<string, Direction> Orientation => new(new List<(string Key, Direction Value)>
     {
-        [NORTH] = new(NORTH, EAST, WEST),
-        [EAST] = new(EAST, SOUTH, NORTH),
-        [SOUTH] = new(SOUTH, WEST, EAST),
-        [WEST] = new(WEST, NORTH, SOUTH)
-    };
-    
+        (NORTH, new Direction(NORTH, EAST, WEST)),
+        (EAST, new Direction(EAST, SOUTH, NORTH)),
+        (SOUTH, new Direction(SOUTH, WEST, EAST)),
+        (WEST, new Direction(WEST, NORTH, SOUTH))
+    });
+
     public static Direction DefaultDirection(string direction = NORTH) => Orientation[direction];
 
     private Direction GetDirection(string newDirection) => Orientation[newDirection];
