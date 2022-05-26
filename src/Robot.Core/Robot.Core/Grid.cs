@@ -1,19 +1,18 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Robots.Core;
+﻿namespace Robots.Core;
 
 public class Grid
 {
-    private readonly int _columns;
-    private readonly int _rows;
-
     public Grid(int rows, int columns)
     {
-        _rows = rows;
-        _columns = columns;
+        Rows = rows;
+        Columns = columns;
     }
 
     public bool IsOutOfBounds { get; private set; }
+
+    public int Rows { get; }
+
+    public int Columns { get; }
 
     public Coordinate GetCoordinate(Direction direction, Coordinate coordinates)
     {
@@ -38,18 +37,8 @@ public class Grid
                 break;
         }
 
-        if (y > _rows || x > _columns || x <= -1 || y <= -1) IsOutOfBounds = true;
+        if (y > Rows || x > Columns || x <= -1 || y <= -1) IsOutOfBounds = true;
 
         return new Coordinate(x, y);
-    }
-
-    public static Grid Parse(string input)
-    {
-        string[] values = Regex.Split(input, @"\D+").Where(o => !string.IsNullOrWhiteSpace(o)).ToArray();
-
-        _ = int.TryParse(values[0], out var cols);
-        _ = int.TryParse(values[1], out var rows);
-
-        return new Grid(rows, cols);
     }
 }

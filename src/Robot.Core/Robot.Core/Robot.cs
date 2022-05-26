@@ -1,21 +1,41 @@
-﻿namespace Robots.Core;
+﻿using System.Text.Json;
+using LanguageExt;
+
+namespace Robots.Core;
 
 public class Robot
 {
+    private readonly Seq<RobotCommand> _commands;
     private readonly Grid _grid;
 
-    public Robot(Grid grid)
+    public Robot(Seq<RobotCommand> commands, Grid grid)
     {
+        _commands = commands;
         _grid = grid;
     }
 
-    public string Execute(string commands, string direction = Direction.NORTH, int x = 0, int y = 0)
+    public string Execute()
+    {
+        var result = _commands.Map(command =>
+        {
+            var newCoordinates = Execute(command.Command, command.Direction, command.X, command.Y);
+
+            return _grid.IsOutOfBounds
+                ? "OUT OF BOUNDS"
+                : newCoordinates == command.ExpectedOutput
+                    ? $"SUCCESS {newCoordinates}"
+                    : $"FAILURE {newCoordinates}";
+        });
+
+        return JsonSerializer.Serialize(result);
+    }
+
+    private string Execute(string commands, string direction = Direction.NORTH, int x = 0, int y = 0)
     {
         var orientation = Direction.DefaultDirection(direction);
         var coordinates = new Coordinate(x, y);
 
         foreach (var command in commands.ToCharArray())
-        {
             switch (command)
             {
                 case 'R':
@@ -29,9 +49,6 @@ public class Robot
                     break;
             }
 
-            if (_grid.IsOutOfBounds) return "OUT OF BOUNDS";
-        }
-
-        return $"{coordinates.X}:{coordinates.Y}:{orientation.GetValue()}";
+        return $"{coordinates.X} {coordinates.Y} {orientation.GetValue()}";
     }
 }
