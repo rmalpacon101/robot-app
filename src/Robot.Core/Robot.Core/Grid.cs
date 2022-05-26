@@ -5,7 +5,7 @@ namespace Robots.Core;
 public class Grid
 {
     private readonly Seq<Coordinate> _obstacles;
-    
+
     public Grid(int rows, int columns, Seq<Coordinate> obstacles)
     {
         Rows = rows;
@@ -57,4 +57,6 @@ public class Grid
 
         return newCoordinates;
     }
+
+    public static Grid Default => new(0, 0, Seq<Coordinate>.Empty);
 }

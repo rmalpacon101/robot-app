@@ -32,7 +32,7 @@ public class GridTest
     {
         var grid = new Grid(3, 4, Seq<Coordinate>.Empty);
 
-        var coordinates = grid.Move(Direction.DefaultDirection(Direction.EAST), new Coordinate(1, 1));
+        var coordinates = grid.Move(Direction.DefaultDirection(Direction.EAST), Coordinate.Default);
 
         const int expected = 2;
 
@@ -44,7 +44,7 @@ public class GridTest
     {
         var grid = new Grid(3, 4, Seq<Coordinate>.Empty);
 
-        var coordinates = grid.Move(Direction.DefaultDirection(), new Coordinate(1, 1));
+        var coordinates = grid.Move(Direction.DefaultDirection(), Coordinate.Default);
 
         const int expected = 2;
 
@@ -56,7 +56,7 @@ public class GridTest
     {
         var grid = new Grid(3, 4, Seq<Coordinate>.Empty);
 
-        var coordinates = grid.Move(Direction.DefaultDirection(Direction.SOUTH), new Coordinate(1, 1));
+        var coordinates = grid.Move(Direction.DefaultDirection(Direction.SOUTH), Coordinate.Default);
 
         const int expected = 0;
 
@@ -68,7 +68,7 @@ public class GridTest
     {
         var grid = new Grid(3, 4, Seq<Coordinate>.Empty);
 
-        var coordinates = grid.Move(Direction.DefaultDirection(Direction.WEST), new Coordinate(1, 1));
+        var coordinates = grid.Move(Direction.DefaultDirection(Direction.WEST), Coordinate.Default);
 
         const int expected = 0;
 

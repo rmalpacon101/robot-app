@@ -16,7 +16,7 @@ public class ObstacleParser : AbstractBaseParser<Seq<Coordinate>>
         {
             var values = o.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-            return values.Length >= 3 ? new Coordinate(int.Parse(values[1]), int.Parse(values[2])) : new Coordinate(1, 1);
+            return values.Length >= 3 ? new Coordinate(int.Parse(values[1]), int.Parse(values[2])) : Coordinate.Default;
 
         }).ToSeq();
     }

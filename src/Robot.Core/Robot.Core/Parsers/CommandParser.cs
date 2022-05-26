@@ -39,7 +39,7 @@ public class CommandParser : AbstractBaseParser<Seq<RobotCommand>>
                 
                 return currentPositions.Length >= 3 ? 
                     new RobotCommand(int.Parse(currentPositions[0]), int.Parse(currentPositions[1]), currentPositions[2], list[1], list[2]) : 
-                    new RobotCommand(0, 0, Direction.NORTH, string.Empty, string.Empty);
+                    RobotCommand.Default;
             });
     }
 }
