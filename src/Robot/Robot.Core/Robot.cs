@@ -30,7 +30,7 @@ public class Robot
         return JsonSerializer.Serialize(result);
     }
 
-    private string Execute(string commands, string direction = Direction.NORTH, int x = 0, int y = 0)
+    private string Execute(string commands, string direction, int x, int y)
     {
         var orientation = Direction.DefaultDirection(direction);
         var coordinates = new Coordinate(x, y);
