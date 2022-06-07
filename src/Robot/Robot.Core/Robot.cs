@@ -18,7 +18,7 @@ public class Robot
     {
         var result = _commands.Map(command =>
         {
-            var newCoordinates = Execute(command.Command, command.Direction, command.X, command.Y);
+            var newCoordinates = Execute(command.Command.ToCharArray(), command.Direction, command.X, command.Y);
 
             if (_grid.CollisionOccurred) return $"CRASHED {newCoordinates}";
 
@@ -30,25 +30,23 @@ public class Robot
         return JsonSerializer.Serialize(result);
     }
 
-    private string Execute(string commands, string direction, int x, int y)
+    private string Execute(char[] commands, string direction, int x, int y)
     {
-        var orientation = Direction.DefaultDirection(direction);
-        var coordinates = new Coordinate(x, y);
-
-        foreach (var command in commands.ToCharArray())
-            switch (command)
+        var state = commands.Fold(new RobotState {Coordinates = new Coordinate(x, y), Direction = Direction.DefaultDirection(direction)},
+            (state, command) => command switch
             {
-                case 'R':
-                    orientation = orientation.RotateRight();
-                    break;
-                case 'L':
-                    orientation = orientation.RotateLeft();
-                    break;
-                case 'F':
-                    coordinates = _grid.Move(orientation, coordinates);
-                    break;
-            }
+                'R' => state with {Direction = state.Direction.RotateRight()},
+                'L' => state with {Direction = state.Direction.RotateLeft()},
+                'F' => state with {Coordinates = _grid.Move(state.Direction, state.Coordinates)},
+                _ => state
+            });
 
-        return $"{coordinates.X} {coordinates.Y} {orientation.GetValue()}";
+        return $"{state.Coordinates.X} {state.Coordinates.Y} {state.Direction.GetValue()}";
     }
+}
+
+internal record RobotState
+{
+    public Direction Direction { get; init; }
+    public Coordinate Coordinates { get; init; }
 }
